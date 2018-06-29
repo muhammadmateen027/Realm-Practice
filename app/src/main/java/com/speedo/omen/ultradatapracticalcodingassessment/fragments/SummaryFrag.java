@@ -6,7 +6,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+//First fragment to show data list
 public class SummaryFrag extends Fragment implements DataInterface, DataProcess {
 
     final private String mUrl = "http://www.mocky.io/v2/5abb1042350000580073a7ea";
@@ -37,9 +37,9 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
 
     public SummaryFrag() {
         // Required empty public constructor
-        Log.d(TAG, "SummaryFrag()");
     }
 
+//    views initialized
     private void init(View mView) {
         recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
     }
@@ -47,41 +47,29 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate(Bundle savedInstanceState)");
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView()");
         // Inflate the layout for this fragment
-            myRealm = new MyRealm(SummaryFrag.this);
-            vCall = new VollyCall(getContext(), SummaryFrag.this);
-            vCall.getDataFromServer(mUrl);
+//        objects are created to call network calls and retrive data from realm
+        myRealm = new MyRealm(SummaryFrag.this);
+        vCall = new VollyCall(getContext(), SummaryFrag.this);
+//        to get value from api
+        vCall.getDataFromServer(mUrl);
 
         View mView =  inflater.inflate(R.layout.fragment_summary, container, false);
         init(mView);
-//        List<AccountInfo> list = myRealm.getAll();
         return mView;
     }
 
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-//            Log.d(TAG, "Fragment is visible.");
-////            myRealm = new MyRealm(SummaryFrag.this);
-////            vCall = new VollyCall(getContext(), SummaryFrag.this);
-////            vCall.getDataFromServer(mUrl);
-//        }
-//        else
-//            Log.d(TAG, "Fragment is not visible.");
-//    }
-
+//    when api have data, then you can receive it here and can convert it into objects and called
+// the save methode to store data in realm
     @Override
     public void onDataRetrived(String response) {
         JSONObject jsonObject = null;
+//        Json parsing over here
         try {
             jsonObject = new JSONObject(response);
             if (!jsonObject.getString("accounts").isEmpty()){
@@ -95,6 +83,8 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
                     ac.currentBalance = obj.getString("currentBalance");
                     ac.availableBalance = obj.getString("availableBalance");
                     ac.transactions = obj.getString("transactions");
+
+//                    function call to store object
                     myRealm.save(ac);
                 }
             }
@@ -103,6 +93,8 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
         }
     }
 
+    // if you are succeded in storing data with in realm, then this mothed is call to get value
+    // and pass to adapter to show in a recyclerview
     @Override
     public void onSuccess() {
         List<AccountInfo> list = myRealm.getAll();
@@ -114,6 +106,7 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
         recyclerView.setAdapter(summaryAdapter);
     }
 
+//    if you are failed to store data in realm, anyhow I'm not doing anything
     @Override
     public void onFailure() {
 

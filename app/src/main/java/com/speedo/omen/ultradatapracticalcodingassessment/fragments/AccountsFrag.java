@@ -29,6 +29,7 @@ import java.util.List;
 
 import io.realm.Realm;
 
+//class to get and show values in a listview
 public class AccountsFrag extends Fragment implements DataProcess, DataInterface {
 
     final private String TAG = "AccountsFrag";
@@ -54,6 +55,7 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
         super.onCreate(savedInstanceState);
     }
 
+//    a function is created so that all the views can be initialized
     private void init(View mView){
         btn_pre = (ImageView) mView.findViewById(R.id.btn_pre);
         btn_next = (ImageView) mView.findViewById(R.id.btn_next);
@@ -97,19 +99,18 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
         acList = myRealm.getAll();
         vollyCall = new VollyCall(getContext(), AccountsFrag.this);
         Log.d("AccountsArg", String.valueOf(acList.size()));
+//        if realm have data then call to show or populate on the screen
         if (acList.size() != 0) {
             showData(count);
-        } else {
-
         }
         return mView;
     }
 
+//    if you are in current fragment then this method called, and it retrive data from realm
         @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-//            vollyCall = new VollyCall(getContext(), AccountsFrag.this);
             Log.d(TAG, "Fragment is visible.");
             acList = myRealm.getAll();
             Log.d("AccountsArg", String.valueOf(acList.size()));
@@ -131,18 +132,18 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
 
     }
 
+//    this method is used to show or populate the data on screen w.r.t position
     private void showData(int position) {
-        Log.d("ac", String.valueOf(acList.size())+ ", position: "+String.valueOf(position));
         account_title.setText(acList.get(position).getAccountLabel());
         account_number.setText(acList.get(position).getAccountNumber());
         available_amount.setText("$"+acList.get(position).getAvailableBalance());
-        Log.d("OnDataRe", acList.get(position).getTransactions());
         vollyCall.getDataFromServer(acList.get(position).getTransactions());
     }
 
+//    on volly call, this method proved the data from network call
+//    and to populate the account info
     @Override
     public void onDataRetrived(String response) {
-        Log.d("onDataRetrived", response);
         List<TransactionInfo> listInfo = new ArrayList<TransactionInfo>();
         JSONObject jsonObject = null;
         try {
@@ -163,6 +164,7 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
             e.printStackTrace();
         }
 
+//        populate the listview
         adapter = new AccountsAdapter(listInfo, getContext());
         listview.setAdapter(adapter);
     }

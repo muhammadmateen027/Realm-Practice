@@ -12,7 +12,7 @@ import com.speedo.omen.ultradatapracticalcodingassessment.interfaces.DataInterfa
 
 import org.json.JSONObject;
 
-
+//class to make network calls to interact with apis
 public class VollyCall {
     private Context mContext;
     final private String TAG = "VollyCall";
@@ -22,7 +22,7 @@ public class VollyCall {
         this.mContext = mContext;
         this.dataInterface = dataInterface;
     }
-
+//    function where to pass URL and get results
     public void getDataFromServer(String GET_URL) {
         RequestQueue queue = Volley.newRequestQueue(mContext);
         StringRequest postRequest = new StringRequest(Request.Method.POST, GET_URL,
@@ -32,6 +32,7 @@ public class VollyCall {
                     public void onResponse(String response) {
                         // response
                         Log.w(TAG, "Response: "+ response);
+//                        on results, this call back method give you data where you called it
                         dataInterface.onDataRetrived(response);
 
                     }

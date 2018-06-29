@@ -21,6 +21,7 @@ public class MyRealm {
         realm = Realm.getDefaultInstance();
         this.dataProcess = dataProcess;
     }
+//    function to store or update the data with in realm
     public void save(final AccountInfo acInfo){
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -57,24 +58,23 @@ public class MyRealm {
         });
 
     }
-
+//  method to check weather the provided account number exists or not
     private boolean checkIfExists(Realm realmM, String accountNumber){
         RealmQuery<AccountInfo> query = realmM.where(AccountInfo.class).equalTo("accountNumber", accountNumber);
         return query.count() != 0;
     }
 
+//    method to retrive data from realm
     public List<AccountInfo> getAll(){
         RealmResults<AccountInfo> results = realm.where(AccountInfo.class).sort("accountNumber", Sort.ASCENDING).findAll();
-        Log.d(TAG, String.valueOf(results));
-
         List<AccountInfo> retVal = new ArrayList<AccountInfo>();
         for (int i=0; i<results.size(); i++) {
-            Log.w(TAG, "Realm Get Value.... "+ results.get(i).getAccountNumber() +" : "+results.get(i).getAvailableBalance());
             retVal.add(results.get(i));
         }
         return retVal;
     }
 
+//    this function is currently not in use, but can be used to delete data from realm
     public void deleteData(){
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override

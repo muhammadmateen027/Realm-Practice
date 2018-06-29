@@ -11,7 +11,6 @@ import com.speedo.omen.ultradatapracticalcodingassessment.R;
 import com.speedo.omen.ultradatapracticalcodingassessment.models.TransactionInfo;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,8 +40,6 @@ public class AccountsAdapter extends ArrayAdapter<TransactionInfo> {
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
 
-        final View result;
-
         if (convertView == null) {
 
             viewHolder = new ViewHolder();
@@ -53,12 +50,9 @@ public class AccountsAdapter extends ArrayAdapter<TransactionInfo> {
             viewHolder.desc_tv = (TextView) convertView.findViewById(R.id.desc_tv);
             viewHolder.amount_tv = (TextView) convertView.findViewById(R.id.amount_tv);
 
-            result=convertView;
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-            result=convertView;
         }
         if (position!= 0 && dataModel.getTransDate().equalsIgnoreCase(dataSet.get(position-1).getTransDate())) {
             viewHolder.date_tv.setVisibility(View.GONE);
@@ -80,6 +74,7 @@ public class AccountsAdapter extends ArrayAdapter<TransactionInfo> {
         return convertView;
     }
 
+//    function is used to convert the date recieved into Simple Date Format
     private String convertDate(String dt){
         String cd = "";
         try {

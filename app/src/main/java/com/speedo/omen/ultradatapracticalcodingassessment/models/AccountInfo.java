@@ -4,6 +4,7 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
+// Model class to interact or play with Realm objects
 public class AccountInfo extends RealmObject {
     public String accountNumber;
     public String accountBsb;

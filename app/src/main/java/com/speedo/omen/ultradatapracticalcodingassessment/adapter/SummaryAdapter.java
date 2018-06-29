@@ -41,7 +41,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
         holder.f_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Clicked: "+ String.valueOf(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, String.valueOf(infoList.get(position).getAccountLabel()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -51,6 +51,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
         return infoList.size();
     }
 
+
+//    Inner class is created to bind the views and can be used in the outer class
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView account_title, account_number, available_amount,current_amount;
         public LinearLayout f_view;
