@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Coding Assessment</string>
+    <string name="summary_str">Summary</string>
+    <string name="accounts_str">Accounts</string>
+    <string name="payments_str">Payments</string>
+
+    <string name="account_title">Account Title</string>
+    <string name="account_number">000111222333</string>
+    <string name="text_available">Available</string>
+    <string name="text_amount_value">$0.00</string>
+    <string name="text_current">Current</string>
+    <string name="date_txt">26 AUg 2015</string>
+    <string name="dummy_txt">TFR TO 012345 12345678\nMOB To-TEST DES BSB Ref-Testing Testing [Eff Date: 26 MAR 18]</string>
+</resources>
