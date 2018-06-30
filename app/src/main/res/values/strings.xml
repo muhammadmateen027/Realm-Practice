@@ -11,4 +11,5 @@
     <string name="text_current">Current</string>
     <string name="date_txt">26 AUg 2015</string>
     <string name="dummy_txt">TFR TO 012345 12345678\nMOB To-TEST DES BSB Ref-Testing Testing [Eff Date: 26 MAR 18]</string>
+    <string name="m_index">index</string>
 </resources>

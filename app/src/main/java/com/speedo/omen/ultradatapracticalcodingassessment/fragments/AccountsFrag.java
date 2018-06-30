@@ -1,5 +1,6 @@
 package com.speedo.omen.ultradatapracticalcodingassessment.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -44,7 +45,7 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
     static int count=0;
     private VollyCall vollyCall;
     private AccountsAdapter adapter;
-
+    private SharedPreferences sharedPref;
 
     public AccountsFrag() {
         // Required empty public constructor
@@ -53,6 +54,7 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = getActivity().getPreferences(getContext().MODE_PRIVATE);
     }
 
 //    a function is created so that all the views can be initialized
@@ -111,14 +113,14 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
+            int mIndex = sharedPref.getInt(getString(R.string.m_index), 0);
+            count = mIndex;
             Log.d(TAG, "Fragment is visible.");
             acList = myRealm.getAll();
             Log.d("AccountsArg", String.valueOf(acList.size()));
             if (acList.size() != 0) {
                 showData(count);
             }
-        } else {
-            count = 0;
         }
     }
 

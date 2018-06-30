@@ -1,5 +1,6 @@
 package com.speedo.omen.ultradatapracticalcodingassessment.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,8 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
     private RecyclerView recyclerView;
     private SummaryAdapter summaryAdapter;
     private ViewPager viewPager;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
     public SummaryFrag() {
 
         // Required empty public constructor
@@ -53,6 +57,9 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPref = getActivity().getPreferences(getContext().MODE_PRIVATE);
+        editor = sharedPref.edit();
+
     }
 
     @Override
@@ -104,7 +111,7 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
     @Override
     public void onSuccess() {
         List<AccountInfo> list = myRealm.getAll();
-        summaryAdapter = new SummaryAdapter(list, getContext(),viewPager);
+        summaryAdapter = new SummaryAdapter(list, getContext(),viewPager, editor);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));

@@ -1,8 +1,8 @@
 package com.speedo.omen.ultradatapracticalcodingassessment.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.speedo.omen.ultradatapracticalcodingassessment.MainActivity;
 import com.speedo.omen.ultradatapracticalcodingassessment.R;
 import com.speedo.omen.ultradatapracticalcodingassessment.models.AccountInfo;
 
@@ -22,10 +21,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
     private List<AccountInfo> infoList;
     private Context mContext;
     private ViewPager viewPager;
-    public SummaryAdapter (List<AccountInfo> infoList, Context mContext, ViewPager viewPager) {
+    private SharedPreferences.Editor editor;
+    public SummaryAdapter (List<AccountInfo> infoList, Context mContext, ViewPager viewPager, SharedPreferences.Editor editor) {
         this.infoList = infoList;
         this.mContext = mContext;
         this.viewPager = viewPager;
+        this.editor = editor;
     }
     @NonNull
     @Override
@@ -46,8 +47,10 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
         holder.f_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 viewPager.setCurrentItem(1);
-                Toast.makeText(mContext, String.valueOf(infoList.get(position).getAccountLabel()), Toast.LENGTH_SHORT).show();
+                editor.putInt(mContext.getString(R.string.m_index), position);
+                editor.commit();
+//                Toast.makeText(mContext, String.valueOf(infoList.get(position).getAccountLabel()), Toast.LENGTH_SHORT).show();
+                viewPager.setCurrentItem(1);
             }
         });
     }
@@ -58,7 +61,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
     }
 
 
-//    Inner class is created to bind the views and can be used in the outer class
+    //    Inner class is created to bind the views and can be used in the outer class
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView account_title, account_number, available_amount,current_amount;
         public LinearLayout f_view;
