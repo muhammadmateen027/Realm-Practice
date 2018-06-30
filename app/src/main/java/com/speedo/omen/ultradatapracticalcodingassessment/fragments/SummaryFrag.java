@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.speedo.omen.ultradatapracticalcodingassessment.MainActivity;
 import com.speedo.omen.ultradatapracticalcodingassessment.R;
@@ -39,6 +40,8 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
     private MyRealm myRealm;
 
     private RecyclerView recyclerView;
+    private LinearLayout top_lv;
+
     private SummaryAdapter summaryAdapter;
     private ViewPager viewPager;
     private SharedPreferences sharedPref;
@@ -51,6 +54,8 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
 //    views initialized
     private void init(View mView) {
         recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
+        top_lv = (LinearLayout) mView.findViewById(R.id.nothing_lv);
+
         viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
     }
 
@@ -106,22 +111,38 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
         }
     }
 
+    @Override
+    public void onNetworkFail() {
+        List<AccountInfo> list = myRealm.getAll();
+        if (list.size() != 0 ) {
+            callAdapter(list);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            top_lv.setVisibility(View.VISIBLE);
+        }
+    }
+
     // if you are succeded in storing data with in realm, then this mothed is call to get value
     // and pass to adapter to show in a recyclerview
     @Override
     public void onSuccess() {
         List<AccountInfo> list = myRealm.getAll();
-        summaryAdapter = new SummaryAdapter(list, getContext(),viewPager, editor);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(summaryAdapter);
+        callAdapter(list);
     }
 
 //    if you are failed to store data in realm, anyhow I'm not doing anything
     @Override
     public void onFailure() {
 
+    }
+    private void callAdapter (List<AccountInfo> list) {
+        recyclerView.setVisibility(View.VISIBLE);
+        top_lv.setVisibility(View.GONE);
+        summaryAdapter = new SummaryAdapter(list, getContext(),viewPager, editor);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(summaryAdapter);
     }
 }

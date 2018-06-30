@@ -49,7 +49,6 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
             public void onClick(View v) {
                 editor.putInt(mContext.getString(R.string.m_index), position);
                 editor.commit();
-//                Toast.makeText(mContext, String.valueOf(infoList.get(position).getAccountLabel()), Toast.LENGTH_SHORT).show();
                 viewPager.setCurrentItem(1);
             }
         });
@@ -72,7 +71,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
             account_number = (TextView) view.findViewById(R.id.account_number);
             available_amount = (TextView) view.findViewById(R.id.available_amount);
             current_amount = (TextView) view.findViewById(R.id.current_amount);
-            f_view = (LinearLayout) view.findViewById(R.id.right_index);
+            f_view = (LinearLayout) view.findViewById(R.id.f_view);
         }
     }
 }

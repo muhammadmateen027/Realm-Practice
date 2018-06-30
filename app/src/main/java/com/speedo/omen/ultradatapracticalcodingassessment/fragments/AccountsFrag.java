@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,9 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
     private TextView available_amount;
     private List<AccountInfo> acList;
     private ListView listview;
+    private LinearLayout tv_lv;
+    private LinearLayout data_lv;
+
     private MyRealm myRealm;
     static int count=0;
     private VollyCall vollyCall;
@@ -65,6 +69,9 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
         account_number = (TextView) mView.findViewById(R.id.account_number);
         available_amount = (TextView) mView.findViewById(R.id.available_amount);
         listview = (ListView) mView.findViewById(R.id.listview);
+
+        tv_lv = (LinearLayout) mView.findViewById(R.id.one);
+        data_lv = (LinearLayout) mView.findViewById(R.id.top);
 
         btn_pre.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +127,11 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
             Log.d("AccountsArg", String.valueOf(acList.size()));
             if (acList.size() != 0) {
                 showData(count);
+                tv_lv.setVisibility(View.GONE);
+                data_lv.setVisibility(View.VISIBLE);
+            } else {
+                tv_lv.setVisibility(View.VISIBLE);
+                data_lv.setVisibility(View.GONE);
             }
         }
     }
@@ -169,5 +181,10 @@ public class AccountsFrag extends Fragment implements DataProcess, DataInterface
 //        populate the listview
         adapter = new AccountsAdapter(listInfo, getContext());
         listview.setAdapter(adapter);
+    }
+
+    @Override
+    public void onNetworkFail() {
+
     }
 }

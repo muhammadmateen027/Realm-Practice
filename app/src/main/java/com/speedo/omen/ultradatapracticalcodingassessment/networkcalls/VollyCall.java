@@ -41,6 +41,7 @@ public class VollyCall {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
+                        dataInterface.onNetworkFail();
                         Log.d(TAG, "Error.Response:"+ String.valueOf(error));
                     }
                 }
