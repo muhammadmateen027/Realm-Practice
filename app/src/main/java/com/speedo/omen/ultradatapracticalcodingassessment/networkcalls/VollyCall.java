@@ -31,7 +31,6 @@ public class VollyCall {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Log.w(TAG, "Response: "+ response);
 //                        on results, this call back method give you data where you called it
                         dataInterface.onDataRetrived(response);
 

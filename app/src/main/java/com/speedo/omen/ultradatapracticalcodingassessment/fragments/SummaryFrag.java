@@ -1,7 +1,9 @@
 package com.speedo.omen.ultradatapracticalcodingassessment.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.speedo.omen.ultradatapracticalcodingassessment.MainActivity;
 import com.speedo.omen.ultradatapracticalcodingassessment.R;
 import com.speedo.omen.ultradatapracticalcodingassessment.adapter.SummaryAdapter;
+import com.speedo.omen.ultradatapracticalcodingassessment.adapter.ViewPagerAdapter;
 import com.speedo.omen.ultradatapracticalcodingassessment.interfaces.DataInterface;
 import com.speedo.omen.ultradatapracticalcodingassessment.interfaces.DataProcess;
 import com.speedo.omen.ultradatapracticalcodingassessment.models.AccountInfo;
@@ -34,14 +38,16 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
 
     private RecyclerView recyclerView;
     private SummaryAdapter summaryAdapter;
-
+    private ViewPager viewPager;
     public SummaryFrag() {
+
         // Required empty public constructor
     }
 
 //    views initialized
     private void init(View mView) {
         recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
+        viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
     }
 
     @Override
@@ -98,7 +104,7 @@ public class SummaryFrag extends Fragment implements DataInterface, DataProcess 
     @Override
     public void onSuccess() {
         List<AccountInfo> list = myRealm.getAll();
-        summaryAdapter = new SummaryAdapter(list, getContext());
+        summaryAdapter = new SummaryAdapter(list, getContext(),viewPager);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));

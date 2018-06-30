@@ -2,6 +2,8 @@ package com.speedo.omen.ultradatapracticalcodingassessment.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.speedo.omen.ultradatapracticalcodingassessment.MainActivity;
 import com.speedo.omen.ultradatapracticalcodingassessment.R;
 import com.speedo.omen.ultradatapracticalcodingassessment.models.AccountInfo;
 
@@ -18,9 +21,11 @@ import java.util.List;
 public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHolder> {
     private List<AccountInfo> infoList;
     private Context mContext;
-    public SummaryAdapter (List<AccountInfo> infoList, Context mContext) {
+    private ViewPager viewPager;
+    public SummaryAdapter (List<AccountInfo> infoList, Context mContext, ViewPager viewPager) {
         this.infoList = infoList;
         this.mContext = mContext;
+        this.viewPager = viewPager;
     }
     @NonNull
     @Override
@@ -41,6 +46,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.MyViewHo
         holder.f_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                 viewPager.setCurrentItem(1);
                 Toast.makeText(mContext, String.valueOf(infoList.get(position).getAccountLabel()), Toast.LENGTH_SHORT).show();
             }
         });
